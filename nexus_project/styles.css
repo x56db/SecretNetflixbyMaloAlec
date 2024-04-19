@@ -1,0 +1,85 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #000000;
+    color: #00FF00;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.terminal {
+    width: 80%;
+    height: 80%;
+    max-width: 800px;
+    max-height: 600px;
+    background-color: #000000;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.output-container {
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow: auto;
+}
+
+.output {
+    margin: 0;
+    padding: 10px;
+}
+
+.prompt {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    background-color: #000000;
+    border-top: 2px solid #00FF00;
+}
+
+.prompt-path {
+    color: #00FF00;
+    margin-right: 5px;
+}
+
+.command-input {
+    width: calc(100% - 50px);
+    padding: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: transparent;
+    color: #00FF00;
+    border: none;
+    outline: none;
+}
+
+.command-input:focus {
+    outline: none;
+}
+
+.command-input::placeholder {
+    color: #888888;
+}
+
+/* Animation */
+@keyframes terminalBlink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.command-input {
+    animation: terminalBlink 1s infinite;
+}
+
+.command-input:focus {
+    animation: none;
+}
