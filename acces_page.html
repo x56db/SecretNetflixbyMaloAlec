@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Typer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #canvas {
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px 0 0 0;
+            background: black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="1500" height="13500"></canvas>
+
+    <script>
+        const text = `
+        C:\\> nmap -sS -T4 -A -p- 192.168.1.1
+
+        Starting Nmap 7.91 ( https://nmap.org ) at 2024-04-16 12:00 GMT
+        Initiating SYN Stealth Scan against 192.168.1.1...Done: 11.023s
+        Scanning all ports for vulnerabilities and services...Done: 146.201s
+        Host is up (0.0021s latency).
+        Not shown: 65532 filtered ports
+        PORT      STATE  SERVICE  VERSION
+        21/tcp    open   ftp      vsftpd 3.0.3
+        22/tcp    open   ssh      OpenSSH 7.9 (protocol 2.0)
+        23/tcp    open   telnet   Linux telnetd
+        25/tcp    closed smtp
+        80/tcp    open   http     Apache httpd 2.4.46
+        111/tcp   open   rpcbind  2-4 (RPC #100000)
+        139/tcp   open   netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+        445/tcp   open   netbios-ssn Samba smbd 4.7.6-Ubuntu (workgroup: WORKGROUP)
+        631/tcp   open   ipp      CUPS 2.2
+
+        MAC Address: 08:00:27:BB:69:A1 (Oracle VirtualBox virtual NIC)
+
+        Aggressive OS guesses: Linux 4.15 - 5.6 (95%), Linux 3.2 - 4.9 (95%), Linux 3.18 (94%)
+
+        Starting Nmap 7.91 ( https://nmap.org ) at 2024-04-16 12:06 GMT
+        Initiating Script Scan against 192.168.1.1...Done: 34.219s
+        PORT   STATE  SERVICE
+        21/tcp open   ftp
+        | vulners:
+        |   samba-vuln-cve-2018-1057:
+        |     State: VULNERABLE
+        |     IDs:  CVE:CVE-2018-1057
+        |     Description: Samba: Unauthorized access to a readable share allows unauthorized users to read any file within the share
+        |     CVE: CVE-2018-1057
+        |     References:
+        |       https://nmap.org/nsedoc/scripts/samba-vuln-cve-2018-1057.html
+        |_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-1057
+
+        MAC Address: 08:00:27:BB:69:A1 (Oracle VirtualBox virtual NIC)
+
+        Aggressive OS guesses: Linux 4.15 - 5.6 (95%), Linux 3.2 - 4.9 (95%), Linux 3.18 (94%)
+        Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+        Nmap done: 1 IP address (1 host up) scanned in 37.684 seconds
+`;
+
+        const lines = text.split('\n').filter(line => line.length).map(line => `${line}\n`);
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const lineHeight = 10; // Réduire la hauteur de ligne
+        const scrollPixels = 0; // Réduire le nombre de pixels pour le défilement
+
+        function drawText() {
+            let x = 0,
+                y = 0,
+                lineIndex = 0,
+                charIndex = 0;
+
+            function animate() {
+                if (lineIndex >= lines.length) {
+                    setTimeout(displayThumbnail, 3000); // Afficher la vignette "Access Allow" après quelques secondes
+                    return;
+                }
+                const char = lines[lineIndex][charIndex];
+                ctx.fillText(char, x, y);
+                if (char == '\n') {
+                    y += lineHeight;
+                }
+                x += ctx.measureText(char).width;
+                if (char == '\t') {
+                    x += tabWidth;
+                }
+                window.scrollTo(0, ((y / canvas.height) * document.body.scrollHeight) - (window.innerHeight / 2) + scrollPixels); // Réduire le nombre de pixels pour le défilement
+
+                if (charIndex === lines[lineIndex].length - 1) {
+                    x = 0;
+                    y += lineHeight;
+                    lineIndex++;
+                    charIndex = 0;
+                } else {
+                    charIndex++;
+                }
+
+                setTimeout(animate, 0); // Réduire le délai
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.font = '18px monospace';
+            ctx.fillStyle = '#00ff00';
+            ctx.textBaseline = 'top';
+            animate();
+        }
+
+        function displayThumbnail() {
+    const background = document.createElement('div');
+    background.style.position = 'fixed';
+    background.style.top = '0';
+    background.style.left = '0';
+    background.style.width = '100%';
+    background.style.height = '100%';
+    background.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // Fond noir semi-transparent
+    document.body.appendChild(background);
+
+    const thumbnail = document.createElement('div');
+    thumbnail.textContent = 'Access Allow';
+    thumbnail.style.position = 'fixed';
+    thumbnail.style.top = '50%';
+    thumbnail.style.left = '50%';
+    thumbnail.style.transform = 'translate(-50%, -50%)';
+    thumbnail.style.backgroundColor = 'green';
+    thumbnail.style.padding = '20px';
+    thumbnail.style.color = 'white';
+    thumbnail.style.fontSize = '24px';
+    thumbnail.style.animation = 'pulse 1s infinite';
+    document.body.appendChild(thumbnail);
+
+    setTimeout(() => {
+        // Retirer le fond noir et la vignette après quelques secondes
+        document.body.removeChild(background);
+        document.body.removeChild(thumbnail);
+        // Rediriger vers une autre page
+        window.location.href = 'nexus_project/index.html';
+    }, 2000); // Supprimer après 3 secondes
+}
+
+        drawText();
+    </script>
+</body>
+
+</html>

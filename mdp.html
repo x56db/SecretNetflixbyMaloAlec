@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page protégée par mot de passe</title>
+      <!-- https://stylesuxx.github.io/steganography/ -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .password-page {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .password-form {
+            margin-bottom: 20px;
+        }
+
+        .password-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #ff5252;
+        }
+
+        .password-input {
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            border-bottom: 2px solid #ff5252;
+            background-color: transparent;
+            color: #fff;
+            outline: none;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .password-input::placeholder {
+            color: #fff;
+            opacity: 0.7;
+        }
+
+        .password-submit {
+            background-color: #ff5252;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .password-submit:hover {
+            background-color: #ff1744;
+            transform: scale(1.05);
+        }
+
+        .access-message {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .access-message p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="password-page">
+    <div class="password-form">
+        <h2 class="password-title">Veuillez entrer le mot de passe</h2>
+        <form id="passwordForm">
+            <input type="password" id="passwordInput" class="password-input" placeholder="Mot de passe" required>
+            <button type="submit" class="password-submit">Valider</button>
+        </form>
+    </div>
+    <div id="accessGranted" class="access-message">
+        <p>Accès autorisé. Redirection en cours...</p>
+    </div>
+    <div id="accessDenied" class="access-message">
+        <p>Mot de passe incorrect. Veuillez réessayer.</p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('passwordForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const password = document.getElementById('passwordInput').value;
+        // Vérification du mot de passe
+        if (password === 'ILEVENISDEAD') {
+            document.getElementById('accessGranted').style.display = 'block';
+            setTimeout(function() {
+                // Redirection vers la page autorisée
+                window.location.href = 'acces_page.html';
+            }, 2000); // Redirection après 2 secondes
+        } else {
+            document.getElementById('accessDenied').style.display = 'block';
+        }
+    });
+
+    // Effacer les messages d'erreur ou d'autorisation dès que l'utilisateur commence à écrire
+    document.getElementById('passwordInput').addEventListener('input', function() {
+        document.getElementById('accessGranted').style.display = 'none';
+        document.getElementById('accessDenied').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

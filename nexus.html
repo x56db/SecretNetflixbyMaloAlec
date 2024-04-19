@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Simulateur de CMD</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+  }
+  .cmd-container {
+    background-color: white;
+    color: green;
+    font-family: 'Courier New', Courier, monospace;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .cmd-container input {
+    border: none;
+    background-color: white;
+    color: green;
+    width: 100%;
+    outline: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="cmd-container" id="cmdContainer">
+  <input type="text" id="cmdInput" autofocus />
+</div>
+
+<script>
+  const cmdContainer = document.getElementById('cmdContainer');
+  const cmdInput = document.getElementById('cmdInput');
+
+  cmdInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      const command = cmdInput.value;
+      cmdInput.value = '';
+      processCommand(command);
+    }
+  });
+
+  function processCommand(command) {
+    // Ici, vous pouvez traiter la commande et simuler la navigation dans le système de fichiers
+    // Pour l'exemple, nous allons simplement afficher la commande
+    const output = document.createElement('div');
+    output.textContent = 'Vous avez entré la commande : ' + command;
+    cmdContainer.insertBefore(output, cmdInput);
+
+    // Vous pouvez ajouter ici une logique pour simuler la navigation dans un système de fichiers
+    // ou pour interagir avec un backend qui gère l'état du jeu ARG.
+  }
+</script>
+
+</body>
+</html>
